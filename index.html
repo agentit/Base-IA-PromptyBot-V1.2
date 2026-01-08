@@ -1,77 +1,14 @@
 <!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agence CIA - Base de données PromptyBot</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              heading: ['Outfit', 'sans-serif'],
-            },
-            colors: {
-              cia: {
-                main: '#01315E',    // Dark Blue
-                mid: '#0C497E',     // Medium Blue
-                cyan: '#0D76A6',    // Cyan/Blue
-                accent: '#74A2FF',  // Light Blue Accent
-                text: '#12101B',    // Dark Text
-                gray: {
-                  1: '#6F6F77',
-                  2: '#707070',
-                  3: '#8C8F94',
-                }
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
-      
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #FFFFFF;
-        color: #12101B;
-      }
-      
-      h1, h2, h3, h4, h5, h6 {
-        font-family: 'Outfit', sans-serif;
-      }
-
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #F1F1F1; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #8C8F94; 
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #01315E; 
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.561.0"
-  }
-}
-</script>
+<html>
+<head>
+    <title>Test Déploiement</title>
 </head>
-  <body class="bg-white text-cia-text antialiased selection:bg-cia-main/20 selection:text-cia-main">
-    <div id="root"></div>
-  </body>
+<body>
+    <h1>Test OK</h1>
+    <div id="status"></div>
+    <script>
+        document.getElementById('status').textContent = 'JavaScript fonctionne !';
+        console.log('Page chargée avec succès');
+    </script>
+</body>
 </html>
