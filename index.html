@@ -1,78 +1,170 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agence CIA - Base de données PromptyBot</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              heading: ['Outfit', 'sans-serif'],
-            },
-            colors: {
-              cia: {
-                main: '#01315E',    // Dark Blue
-                mid: '#0C497E',     // Medium Blue
-                cyan: '#0D76A6',    // Cyan/Blue
-                accent: '#74A2FF',  // Light Blue Accent
-                text: '#12101B',    // Dark Text
-                gray: {
-                  1: '#6F6F77',
-                  2: '#707070',
-                  3: '#8C8F94',
-                }
-              }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agence CIA - PromptyBot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            cia: {
+              main: '#01315E',
+              mid: '#0C497E',
+              cyan: '#0D76A6',
+              accent: '#74A2FF',
             }
           }
         }
       }
-    </script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
-      
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #FFFFFF;
-        color: #12101B;
-      }
-      
-      h1, h2, h3, h4, h5, h6 {
-        font-family: 'Outfit', sans-serif;
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@18.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@18.2.0/client"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import React, { useState, useEffect } from 'react';
+    import { createRoot } from 'react-dom/client';
+
+    const API = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+
+    function App() {
+      const [key, setKey] = useState('');
+      const [ok, setOk] = useState(false);
+      const [q, setQ] = useState('');
+      const [res, setRes] = useState('');
+      const [load, setLoad] = useState(false);
+      const [err, setErr] = useState('');
+
+      useEffect(() => {
+        const k = localStorage.getItem('k');
+        if (k) { setKey(k); setOk(true); }
+      }, []);
+
+      const save = (e) => {
+        e.preventDefault();
+        if (key.trim()) {
+          localStorage.setItem('k', key.trim());
+          setOk(true);
+        }
+      };
+
+      const ask = async (e) => {
+        e.preventDefault();
+        if (!q.trim()) return;
+        setLoad(true);
+        setErr('');
+        setRes('');
+
+        try {
+          const r = await fetch(`${API}?key=${key}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: q }] }] })
+          });
+          if (!r.ok) throw new Error(`Erreur ${r.status}`);
+          const d = await r.json();
+          setRes(d.candidates?.[0]?.content?.parts?.[0]?.text || 'Pas de réponse');
+        } catch (e) {
+          setErr(e.message);
+        } finally {
+          setLoad(false);
+        }
+      };
+
+      const reset = () => {
+        localStorage.removeItem('k');
+        setKey('');
+        setOk(false);
+        setRes('');
+      };
+
+      if (!ok) {
+        return React.createElement('div', { className: 'min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center p-4' },
+          React.createElement('div', { className: 'bg-white rounded-2xl shadow-xl p-8 max-w-md w-full' },
+            React.createElement('h1', { className: 'text-2xl font-bold text-center mb-6', style: { color: '#01315E' } }, '🤖 PromptyBot'),
+            React.createElement('form', { onSubmit: save, className: 'space-y-4' },
+              React.createElement('input', {
+                type: 'password',
+                value: key,
+                onChange: (e) => setKey(e.target.value),
+                placeholder: 'Clé API Google AI Studio',
+                className: 'w-full px-4 py-3 border-2 rounded-lg focus:outline-none',
+                required: true
+              }),
+              React.createElement('button', {
+                type: 'submit',
+                className: 'w-full text-white py-3 rounded-lg font-medium',
+                style: { backgroundColor: '#01315E' }
+              }, '✨ Commencer'),
+              React.createElement('p', { className: 'text-xs text-center text-gray-500' },
+                'Obtenez votre clé sur ',
+                React.createElement('a', { href: 'https://aistudio.google.com/app/apikey', target: '_blank', className: 'text-blue-600' }, 'Google AI Studio')
+              )
+            )
+          )
+        );
       }
 
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #F1F1F1; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #8C8F94; 
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #01315E; 
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.561.0"
-  }
-}
-</script>
-      <script type="module" src="./app.js"></script>
-</head>
-  <body class="bg-white text-cia-text antialiased selection:bg-cia-main/20 selection:text-cia-main">
-    <div id="root"></div>
-  </body>
+      return React.createElement('div', { className: 'min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 p-4' },
+        React.createElement('div', { className: 'max-w-4xl mx-auto' },
+          React.createElement('div', { className: 'bg-white rounded-2xl shadow-lg p-6 mb-6' },
+            React.createElement('div', { className: 'flex justify-between items-center' },
+              React.createElement('h1', { className: 'text-2xl font-bold', style: { color: '#01315E' } }, '🤖 PromptyBot'),
+              React.createElement('button', { onClick: reset, className: 'text-sm text-gray-600' }, 'Changer clé')
+            )
+          ),
+          React.createElement('div', { className: 'bg-white rounded-2xl shadow-lg p-6' },
+            React.createElement('form', { onSubmit: ask, className: 'space-y-4' },
+              React.createElement('textarea', {
+                value: q,
+                onChange: (e) => setQ(e.target.value),
+                placeholder: 'Posez votre question...',
+                rows: 6,
+                className: 'w-full px-4 py-3 border-2 rounded-lg focus:outline-none resize-none',
+                disabled: load
+              }),
+              React.createElement('button', {
+                type: 'submit',
+                disabled: load || !q.trim(),
+                className: 'w-full text-white py-3 rounded-lg font-medium disabled:opacity-50',
+                style: { backgroundColor: '#01315E' }
+              }, load ? '⏳ Chargement...' : '🚀 Envoyer')
+            ),
+            err && React.createElement('div', { className: 'mt-4 p-4 bg-red-50 rounded-lg' },
+              React.createElement('p', { className: 'text-red-600' }, '❌ ' + err)
+            ),
+            res && React.createElement('div', { className: 'mt-6 p-6 bg-blue-50 rounded-lg' },
+              React.createElement('h3', { className: 'font-bold mb-3', style: { color: '#01315E' } }, '💬 Réponse'),
+              React.createElement('p', { className: 'whitespace-pre-wrap' }, res)
+            )
+          )
+        )
+      );
+    }
+
+    createRoot(document.getElementById('root')).render(React.createElement(App));
+  </script>
+</body>
 </html>
