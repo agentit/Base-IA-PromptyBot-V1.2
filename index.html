@@ -3,22 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agent IT - Annuaire IA</title>
+    <title>Agence CIA - Base de données PromptyBot</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              heading: ['Outfit', 'sans-serif'],
+            },
             colors: {
-              prompty: {
-                black: '#181618',
-                white: '#F0F0F1',
-                gold: '#D89F36',
-                yellow: '#DAC31D',
-                orange: '#EBAE3D',
-                bright: '#FCD25D',
-                pale: '#FEE7A4',
-                hover: '#FCD34D',
+              cia: {
+                main: '#01315E',    // Dark Blue
+                mid: '#0C497E',     // Medium Blue
+                cyan: '#0D76A6',    // Cyan/Blue
+                accent: '#74A2FF',  // Light Blue Accent
+                text: '#12101B',    // Dark Text
+                gray: {
+                  1: '#6F6F77',
+                  2: '#707070',
+                  3: '#8C8F94',
+                }
               }
             }
           }
@@ -26,24 +32,32 @@
       }
     </script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
+      
       body {
         font-family: 'Inter', sans-serif;
+        background-color: #FFFFFF;
+        color: #12101B;
       }
-      /* Custom scrollbar for dark theme */
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Outfit', sans-serif;
+      }
+
+      /* Custom scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
       }
       ::-webkit-scrollbar-track {
-        background: #181618; 
+        background: #F1F1F1; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #333; 
+        background: #8C8F94; 
         border-radius: 4px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #D89F36; 
+        background: #01315E; 
       }
     </style>
   <script type="importmap">
@@ -57,7 +71,7 @@
 }
 </script>
 </head>
-  <body class="bg-prompty-black text-prompty-white antialiased selection:bg-prompty-gold/30 selection:text-prompty-bright">
+  <body class="bg-white text-cia-text antialiased selection:bg-cia-main/20 selection:text-cia-main">
     <div id="root"></div>
   </body>
 </html>

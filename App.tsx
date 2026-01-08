@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Menu, Search, Github, X } from 'lucide-react';
+import { Menu, Search, Github, X, Database } from 'lucide-react';
 import { AGENTS_DATA } from './data';
 import AgentCard from './components/AgentCard';
 import Sidebar from './components/Sidebar';
@@ -68,37 +68,45 @@ const App: React.FC = () => {
   const hasActiveFilters = searchQuery.trim() !== '' || selectedTags.length > 0;
 
   return (
-    <div className="min-h-screen bg-prompty-black flex flex-col text-prompty-white">
+    <div className="min-h-screen bg-white flex flex-col text-cia-text font-sans">
       {/* Header */}
-      <header className="bg-prompty-black/90 backdrop-blur-md border-b border-white/10 sticky top-0 z-30 shadow-lg shadow-black/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            {/* Logo Area */}
             <div className="flex items-center">
               <button
                 onClick={() => setIsSidebarOpen(true)}
-                className="p-2 -ml-2 mr-2 text-gray-400 hover:text-prompty-gold lg:hidden transition-colors"
+                className="p-2 -ml-2 mr-3 text-cia-gray-1 hover:text-cia-main lg:hidden transition-colors"
               >
                 <Menu size={24} />
               </button>
-              <div className="flex items-center space-x-3">
-                <div className="w-9 h-9 bg-gradient-to-br from-prompty-gold to-prompty-yellow rounded-xl flex items-center justify-center shadow-lg shadow-prompty-gold/20">
-                  <span className="text-prompty-black font-bold text-lg">P</span>
+              <div className="flex items-center gap-3 group cursor-pointer">
+                {/* Logo Icon using CIA colors */}
+                <div className="w-10 h-10 bg-cia-main rounded-lg flex items-center justify-center shadow-lg shadow-cia-main/20">
+                   <Database className="text-white" size={20} strokeWidth={2.5} />
                 </div>
-                <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-prompty-white to-gray-400 uppercase">
-                  LA BASE DE PROMPTYBOT
-                </h1>
+                <div className="flex flex-col">
+                  <h1 className="text-xl font-heading font-bold text-cia-main tracking-widest leading-none">
+                    AGENCE CIA
+                  </h1>
+                  <span className="text-[10px] font-heading font-semibold text-cia-cyan tracking-[0.2em] uppercase mt-1">
+                    Base de PromptyBot
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="flex-1 max-w-lg mx-4 hidden md:block">
+            {/* Search Bar */}
+            <div className="flex-1 max-w-xl mx-8 hidden md:block">
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search size={18} className="text-gray-500 group-focus-within:text-prompty-gold transition-colors" />
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Search size={18} className="text-cia-gray-3 group-focus-within:text-cia-main transition-colors" />
                 </div>
                 <input
                   type="text"
-                  className="block w-full pl-10 pr-3 py-2.5 border border-white/10 rounded-xl leading-5 bg-white/5 text-prompty-white placeholder-gray-500 focus:outline-none focus:bg-white/10 focus:ring-1 focus:ring-prompty-gold/50 focus:border-prompty-gold sm:text-sm transition-all duration-200"
-                  placeholder="Rechercher un outil, une description..."
+                  className="block w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg leading-5 bg-gray-50 text-cia-text placeholder-cia-gray-3 focus:outline-none focus:bg-white focus:border-cia-main focus:ring-1 focus:ring-cia-main sm:text-sm transition-all duration-200 font-sans shadow-inner"
+                  placeholder="Rechercher une ressource IA..."
                   value={searchQuery}
                   onChange={handleSearchChange}
                 />
@@ -106,8 +114,12 @@ const App: React.FC = () => {
             </div>
 
              <div className="flex items-center space-x-4">
-               <a href="#" className="text-gray-400 hover:text-prompty-gold transition-colors hidden sm:block hover:bg-white/5 p-2 rounded-lg">
-                 <Github size={20} />
+               <a 
+                href="#" 
+                className="text-cia-gray-1 hover:text-cia-main transition-colors hidden sm:flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 hover:border-cia-main/30 hover:bg-gray-50"
+               >
+                 <Github size={18} />
+                 <span className="text-sm font-medium">Contribuer</span>
                </a>
             </div>
           </div>
@@ -115,11 +127,11 @@ const App: React.FC = () => {
           <div className="pb-4 md:hidden">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search size={18} className="text-gray-500" />
+                <Search size={18} className="text-cia-gray-3" />
               </div>
               <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-white/10 rounded-xl leading-5 bg-white/5 text-prompty-white placeholder-gray-500 focus:outline-none focus:bg-white/10 focus:border-prompty-gold sm:text-sm"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg leading-5 bg-gray-50 text-cia-text placeholder-cia-gray-3 focus:outline-none focus:bg-white focus:border-cia-main sm:text-sm"
                 placeholder="Rechercher..."
                 value={searchQuery}
                 onChange={handleSearchChange}
@@ -129,7 +141,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <div className="flex flex-1 max-w-[1600px] mx-auto w-full">
+      <div className="flex flex-1 max-w-[1600px] mx-auto w-full pt-8">
         {/* Sidebar */}
         <Sidebar
           agents={AGENTS_DATA}
@@ -141,21 +153,23 @@ const App: React.FC = () => {
         />
 
         {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
-          <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
+          <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 border-b border-gray-200 pb-8">
             <div>
-              <h2 className="text-3xl font-bold text-prompty-white tracking-tight">Annuaire IA</h2>
-              <p className="text-gray-400 mt-2 text-sm sm:text-base">
-                Explorez notre collection de {filteredAgents.length} outil{filteredAgents.length > 1 ? 's' : ''} d'intelligence artificielle
+              <h2 className="text-4xl font-heading font-bold text-cia-main tracking-tight mb-2">
+                Annuaire IA
+              </h2>
+              <p className="text-cia-gray-1 text-lg font-light">
+                Explorez notre collection de <span className="text-cia-cyan font-semibold">{filteredAgents.length}</span> outil{filteredAgents.length > 1 ? 's' : ''} d'intelligence artificielle
               </p>
             </div>
             {hasActiveFilters && (
               <button
                 onClick={handleClearAll}
-                className="flex items-center gap-2 px-4 py-2 bg-prompty-gold hover:bg-prompty-pale text-prompty-black rounded-lg text-sm font-bold transition-all shadow-lg shadow-prompty-gold/20 hover:shadow-prompty-gold/40 transform hover:-translate-y-0.5"
+                className="flex items-center gap-2 px-5 py-2.5 bg-cia-main hover:bg-cia-mid text-white rounded-lg text-sm font-bold transition-all shadow-lg shadow-cia-main/20 transform hover:-translate-y-0.5"
               >
-                <X size={16} />
-                Effacer les filtres
+                <X size={18} />
+                EFFACER LES FILTRES
               </button>
             )}
           </div>
@@ -167,17 +181,17 @@ const App: React.FC = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20 bg-white/5 rounded-2xl border border-dashed border-white/10">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/5 mb-4">
-                <Search size={24} className="text-gray-400" />
+            <div className="flex flex-col items-center justify-center py-24 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
+              <div className="w-20 h-20 rounded-full bg-white border border-gray-200 flex items-center justify-center mb-6 shadow-sm">
+                <Search size={32} className="text-cia-gray-3" />
               </div>
-              <p className="text-gray-400 text-lg font-medium">Aucun résultat trouvé pour votre recherche.</p>
-              <p className="text-gray-500 text-sm mt-2">Essayez d'autres mots-clés ou supprimez les filtres.</p>
+              <p className="text-cia-main font-heading text-xl font-medium mb-2">Aucun résultat trouvé</p>
+              <p className="text-cia-gray-1 text-sm mb-8">Essayez d'autres mots-clés ou supprimez les filtres.</p>
               <button 
                 onClick={handleClearAll}
-                className="mt-6 px-4 py-2 bg-prompty-gold hover:bg-prompty-orange text-prompty-black rounded-lg font-bold transition-colors"
+                className="px-6 py-3 bg-cia-main hover:bg-cia-mid text-white rounded-lg font-bold transition-colors uppercase tracking-wide text-sm"
               >
-                Réinitialiser les filtres
+                Réinitialiser tout
               </button>
             </div>
           )}
